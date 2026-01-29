@@ -22,7 +22,7 @@ bool ST7305::begin() {
         pinMode(_te_pin, INPUT);
     }
     
-    //digitalWrite(_cs_pin, HIGH);
+    digitalWrite(_cs_pin, HIGH);
     
     // Hardware reset
     digitalWrite(_rst_pin, HIGH);
@@ -114,7 +114,7 @@ void ST7305::initDisplay() {
     }
     
     sendCommand(0xD0); sendData(0xFF);  // Auto power down
-    sendCommand(0x38);  // HPM:high Power Mode ON
+    sendCommand(0x39);  // HPM:high Power Mode ON
     sendCommand(0x29);  // Display on
 
     sendCommand(0x20);  // Display Inversion Off
