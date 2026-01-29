@@ -119,16 +119,16 @@ void ST7305::initDisplay() {
 
     sendCommand(0x20);  // Display Inversion Off
     sendCommand(0xBB);  // Enable Clear RAM
-    sendCommand(0x4F);  // CLR=0 ; Enable Clear RAM,clear RAM to 0
+    sendData(0x4F);  // CLR=0 ; Enable Clear RAM,clear RAM to 0
     delay(10);
 
     sendCommand(0x2A); // Column Address Setting
-    sendCommand(0x05);
-    sendCommand(0x36);
+    sendData(0x05);
+    sendData(0x36);
 
     sendCommand(0x2B); // Row Address Setting 
-    sendCommand(0x00);
-    sendCommand(0xC7);
+    sendData(0x00);
+    sendData(0xC7);
 
 }
 
