@@ -171,18 +171,14 @@ void ST7305::convertBuffer() {
     }
 }
 
-void ST7305::display() {
-    convertBuffer();
-    
-    // Set display window
-    uint8_t caset[] = {0x17, 0x17 + 18 - 1};
-    uint8_t raset[] = {0x00, 0x00 + 200 - 1};
-    
+void ST7305::display() {    
     sendCommand(0x2A);
-    sendData(caset, sizeof(caset));
+    sendData(0x05);
+    sendData(0x36);
     
     sendCommand(0x2B);
-    sendData(raset, sizeof(raset));
+    sendData(0x00);
+    sendData(0xC7)
     
     sendCommand(0x2C);
     sendData(temp_buffer, 200 * 18 * 3);
