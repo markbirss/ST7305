@@ -60,23 +60,23 @@ void ST7305::sendData(uint8_t *data, size_t len) {
 }
 
 void ST7305::initDisplay() {
-    sendCommand(0xD6); sendData(0x13); sendData(0x02);  // NVM Load Control
+    sendCommand(0xD6); sendData(0x17); sendData(0x02);  // NVM Load Control
     sendCommand(0xD1); sendData(0x01);  // Booster Enable
-    sendCommand(0xC0); sendData(0x08); sendData(0x06);  // Gate Voltage Setting
+    sendCommand(0xC0); sendData(0x12); sendData(0x0A);  // Gate Voltage Setting
     
     sendCommand(0xC1);  // VSHP Setting (4.8V)
-    sendData(0x3C); sendData(0x3E); sendData(0x3C); sendData(0x3C);
+    sendData(115); sendData(0x3E); sendData(0x3C); sendData(0x3C);
     
     sendCommand(0xC2);  // VSLP Setting (0.98V)
-    sendData(0x23); sendData(0x21); sendData(0x23); sendData(0x23);
+    sendData(0); sendData(0x5C); sendData(0x5A); sendData(0x5A);
     
     sendCommand(0xC4);  // VSHN Setting (-3.6V)
-    sendData(0x5A); sendData(0x5C); sendData(0x5A); sendData(0x5A);
+    sendData(50); sendData(0x5C); sendData(0x5A); sendData(0x5A);
     
     sendCommand(0xC5);  // VSLN Setting (0.22V)
-    sendData(0x37); sendData(0x35); sendData(0x37); sendData(0x37);
+    sendData(50); sendData(0x35); sendData(0x37); sendData(0x37);
     
-    sendCommand(0xB2); sendData(0x05);  // Frame Rate Control
+    sendCommand(0xB2); sendData(0x12);  // Frame Rate Control
     
     // Update Period Gate EQ Control in HPM
     sendCommand(0xB3);
@@ -93,28 +93,42 @@ void ST7305::initDisplay() {
     sendData(g62_data, sizeof(g62_data));
     
     sendCommand(0xB7); sendData(0x13);  // Source EQ Enable
-    sendCommand(0xB0); sendData(0x60);  // Gate Line Setting: 384 line
+    sendCommand(0xB0); sendData(0x64);  // Gate Line Setting: 400 line
     
     sendCommand(0x11);  // Sleep out
-    delay(100);
+    delay(120);
     
     sendCommand(0xC9); sendData(0x00);  // Source Voltage Select
-    sendCommand(0x36); sendData(0x00);  // Memory Data Access Control
+    sendCommand(0x36); sendData(0x48);  // Memory Data Access Control
     sendCommand(0x3A); sendData(0x11);  // Data Format Select
     sendCommand(0xB9); sendData(0x20);  // Gamma Mode Setting
     sendCommand(0xB8); sendData(0x29);  // Panel Setting
     
-    sendCommand(0x2A); sendData(0x17); sendData(0x24);  // Column Address Setting
-    sendCommand(0x2B); sendData(0x00); sendData(0xBF);  // Row Address Setting
+    sendCommand(0x2A); sendData(0x05); sendData(0x36);  // Column Address Setting
+    sendCommand(0x2B); sendData(0x00); sendData(0xC7);  // Row Address Setting
     
     if (_te_pin >= 0) {
         sendCommand(0x35); sendData(0x00);  // TE
     }
     
     sendCommand(0xD0); sendData(0xFF);  // Auto power down
-    sendCommand(0x39);  // Frame rate mode
+    sendCommand(0x38);  // HPM:high Power Mode ON
     sendCommand(0x29);  // Display on
-    delay(100);
+
+    sendCommand(0x20);  // Display Inversion Off
+    sendCommand(0xBB);  // Enable Clear RAM
+    sendCommand(0x4F);  // CLR=0 ; Enable Clear RAM,clear RAM to 0
+    delay(10);
+
+    sendCommand(0x2A); // Column Address Setting
+    sendCommand(0x05);
+    sendCommand(0x36);
+
+    sendCommand(0x2B); // Row Address Setting 
+    sendCommand(0x00);
+    sendCommand(0x36);
+  
+    delay(0xC7);
 }
 
 void ST7305::convertBuffer() {
