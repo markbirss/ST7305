@@ -181,7 +181,7 @@ void ST7305::display() {
     sendData(0xC7);
     
     sendCommand(0x2C);
-    sendData(temp_buffer, 200 * 18 * 3);
+    writeData(temp_buffer, 200 * 18 * 3);
 }
 
 void ST7305::clearDisplay() {
