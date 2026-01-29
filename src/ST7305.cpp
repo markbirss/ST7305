@@ -10,7 +10,7 @@ ST7305::ST7305(int16_t w, int16_t h, SPIClass *spi, int8_t cs_pin, int8_t dc_pin
     _te_pin(te_pin),    rotation(0) {  // Initialize rotation to 
     
     buffer = (uint8_t *)malloc(400 * 22);
-    temp_buffer = (uint8_t *)malloc(200 * 14 * 3);
+    temp_buffer = (uint8_t *)malloc(200 * 18 * 3);
 }
 
 bool ST7305::begin() {
@@ -175,7 +175,7 @@ void ST7305::display() {
     convertBuffer();
     
     // Set display window
-    uint8_t caset[] = {0x17, 0x17 + 14 - 1};
+    uint8_t caset[] = {0x17, 0x17 + 18 - 1};
     uint8_t raset[] = {0x00, 0x00 + 200 - 1};
     
     sendCommand(0x2A);
@@ -185,7 +185,7 @@ void ST7305::display() {
     sendData(raset, sizeof(raset));
     
     sendCommand(0x2C);
-    sendData(temp_buffer, 200 * 14 * 3);
+    sendData(temp_buffer, 200 * 18 * 3);
 }
 
 void ST7305::clearDisplay() {
