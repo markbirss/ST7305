@@ -10,7 +10,7 @@ ST7305::ST7305(int16_t w, int16_t h, SPIClass *spi, int8_t cs_pin, int8_t dc_pin
     _te_pin(te_pin),    rotation(0) {  // Initialize rotation to 
     
     buffer = (uint8_t *)malloc(400 * 22);
-    temp_buffer = (uint8_t *)malloc(200 * 18 * 3);
+    temp_buffer = (uint8_t *)malloc(200 * 22 * 3);
 }
 
 bool ST7305::begin() {
