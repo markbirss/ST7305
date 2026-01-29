@@ -114,12 +114,9 @@ void ST7305::initDisplay() {
     }
     
     sendCommand(0xD0); sendData(0xFF);  // Auto power down
-    sendCommand(0x39);  // HPM:high Power Mode ON
+    sendCommand(0x38);  // HPM:high Power Mode ON
     sendCommand(0x29);  // Display on
 
-    delay(255);
-
-  /*
     sendCommand(0x20);  // Display Inversion Off
     sendCommand(0xBB);  // Enable Clear RAM
     sendCommand(0x4F);  // CLR=0 ; Enable Clear RAM,clear RAM to 0
@@ -132,7 +129,7 @@ void ST7305::initDisplay() {
     sendCommand(0x2B); // Row Address Setting 
     sendCommand(0x00);
     sendCommand(0xC7);
-  */
+
 }
 
 void ST7305::convertBuffer() {
