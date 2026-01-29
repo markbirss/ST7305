@@ -9,8 +9,8 @@ ST7305::ST7305(int16_t w, int16_t h, SPIClass *spi, int8_t cs_pin, int8_t dc_pin
     _rst_pin(rst_pin),
     _te_pin(te_pin),    rotation(0) {  // Initialize rotation to 
     
-    buffer = (uint8_t *)malloc(384 * 21);
-    temp_buffer = (uint8_t *)malloc(192 * 14 * 3);
+    buffer = (uint8_t *)malloc(400 * 22);
+    temp_buffer = (uint8_t *)malloc(200 * 14 * 3);
 }
 
 bool ST7305::begin() {
@@ -133,12 +133,12 @@ void ST7305::initDisplay() {
 
 void ST7305::convertBuffer() {
     uint16_t k = 0;
-    for (uint16_t i = 0; i < 384; i += 2) {
+    for (uint16_t i = 0; i < 400; i += 2) {
         // Convert 2 columns
-        for (uint16_t j = 0; j < 21; j += 3) {
+        for (uint16_t j = 0; j < 22; j += 3) {
             for (uint8_t y = 0; y < 3; y++) {
-                uint8_t b1 = buffer[(j + y) * 384 + i];
-                uint8_t b2 = buffer[(j + y) * 384 + i + 1];
+                uint8_t b1 = buffer[(j + y) * 400 + i];
+                uint8_t b2 = buffer[(j + y) * 400 + i + 1];
                 
                 // First 4 bits
                 uint8_t mix = 0;
@@ -175,7 +175,7 @@ void ST7305::display() {
     
     // Set display window
     uint8_t caset[] = {0x17, 0x17 + 14 - 1};
-    uint8_t raset[] = {0x00, 0x00 + 192 - 1};
+    uint8_t raset[] = {0x00, 0x00 + 200 - 1};
     
     sendCommand(0x2A);
     sendData(caset, sizeof(caset));
@@ -184,11 +184,11 @@ void ST7305::display() {
     sendData(raset, sizeof(raset));
     
     sendCommand(0x2C);
-    sendData(temp_buffer, 192 * 14 * 3);
+    sendData(temp_buffer, 200 * 14 * 3);
 }
 
 void ST7305::clearDisplay() {
-    memset(buffer, 0, 384 * 21);
+    memset(buffer, 0, 400 * 22);
 }
 
 void ST7305::drawPixel(int16_t x, int16_t y, uint16_t color) {
@@ -218,7 +218,7 @@ void ST7305::drawPixel(int16_t x, int16_t y, uint16_t color) {
     }
     
     // Calculate byte position and bit position within byte
-    uint16_t byte_idx = (new_y >> 3) * 384 + new_x;
+    uint16_t byte_idx = (new_y >> 3) * 400 + new_x;
     uint8_t bit_pos = new_y & 0x07;
     
     if (color) {
