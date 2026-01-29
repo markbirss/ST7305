@@ -61,14 +61,16 @@ void ST7305::sendData(uint8_t *data, size_t len) {
 
 void ST7305::initDisplay() {
     sendCommand(0xD6); sendData(0x17); sendData(0x02);  // NVM Load Control
+  
     sendCommand(0xD1); sendData(0x01);  // Booster Enable
+  
     sendCommand(0xC0); sendData(0x12); sendData(0x0A);  // Gate Voltage Setting
     
     sendCommand(0xC1);  // VSHP Setting (4.8V)
     sendData(115); sendData(0x3E); sendData(0x3C); sendData(0x3C);
     
     sendCommand(0xC2);  // VSLP Setting (0.98V)
-    sendData(0); sendData(0x5C); sendData(0x5A); sendData(0x5A);
+    sendData(0); sendData(0x21); sendData(0x23); sendData(0x23);
     
     sendCommand(0xC4);  // VSHN Setting (-3.6V)
     sendData(50); sendData(0x5C); sendData(0x5A); sendData(0x5A);
@@ -126,9 +128,7 @@ void ST7305::initDisplay() {
 
     sendCommand(0x2B); // Row Address Setting 
     sendCommand(0x00);
-    sendCommand(0x36);
-  
-    delay(0xC7);
+    sendCommand(0xC7);
 }
 
 void ST7305::convertBuffer() {
