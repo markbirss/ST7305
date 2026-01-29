@@ -22,7 +22,7 @@ bool ST7305::begin() {
         pinMode(_te_pin, INPUT);
     }
     
-    digitalWrite(_cs_pin, HIGH);
+    //digitalWrite(_cs_pin, HIGH);
     
     // Hardware reset
     digitalWrite(_rst_pin, HIGH);
